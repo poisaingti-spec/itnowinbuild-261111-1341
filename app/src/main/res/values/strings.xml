@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">It now in build</string>
+    <string name="tab_build">Build</string>
+    <string name="tab_status">Status</string>
+    <string name="tab_history">History</string>
+    <string name="build_title">Build Pipeline</string>
+    <string name="build_version">Version 1.0.0</string>
+    <string name="build_started">Build Started</string>
+    <string name="build_compiling">Compiling...</string>
+    <string name="build_testing">Running Tests...</string>
+    <string name="build_deploying">Deploying...</string>
+    <string name="build_complete">Build Complete</string>
+    <string name="start_build">Start Build</string>
+    <string name="last_build">Last Build</string>
+    <string name="build_duration">Duration</string>
+    <string name="no_builds">No builds yet</string>
+</resources>
