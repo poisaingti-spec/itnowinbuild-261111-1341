@@ -28,7 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -556,11 +562,11 @@ data class BuildRecord(
 )
 
 class BuildViewModel : ViewModel() {
-    private val _buildState = mutableStateOf(BuildState.IDLE)
-    val buildState = _buildState
+    private val _buildState = MutableStateFlow(BuildState.IDLE)
+    val buildState: StateFlow<BuildState> = _buildState.asStateFlow()
 
-    private val _buildHistory = mutableStateOf(listOf<BuildRecord>())
-    val buildHistory = _buildHistory
+    private val _buildHistory = MutableStateFlow(listOf<BuildRecord>())
+    val buildHistory: StateFlow<List<BuildRecord>> = _buildHistory.asStateFlow()
 
     private var buildCounter = 0
 
@@ -570,7 +576,7 @@ class BuildViewModel : ViewModel() {
         buildCounter++
         val currentBuild = buildCounter
 
-        androidx.lifecycle.viewModelScope.launch {
+        viewModelScope.launch {
             _buildState.value = BuildState.STARTED
 
             delay(1500)
@@ -588,8 +594,8 @@ class BuildViewModel : ViewModel() {
             _buildHistory.value = listOf(
                 BuildRecord(
                     id = currentBuild,
-                    timestamp = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
-                        .format(java.util.Date()),
+                    timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                        .format(Date()),
                     status = BuildState.COMPLETE,
                     duration = "7s"
                 )
